@@ -1,11 +1,10 @@
-from django.conf import settings
-from django.conf.urls.static import static
 from django.urls import path
-
-
-from catalog.views import home, contacts
+from catalog.views import index, base, contacts, catalog, products
 
 urlpatterns = [
-    path('', home),
+    path('', index),
+    path('base/', base),
     path('contacts/', contacts),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('catalog/', catalog),
+    path('products/<int:pk>', products, name='products'),
+]

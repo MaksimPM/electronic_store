@@ -1,58 +1,32 @@
 {% load static %}
-{% load tags %}
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SkyStore</title>
+
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 </head>
 <body>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">SkyStore</h5>
     <nav class="ms-5">
-        <a class="p-2 btn btn-outline-primary" href="/">Каталог</a>
+        <a class="p-2 btn btn-outline-primary" href="/">Главная</a>
+        <a class="p-2 btn btn-outline-primary" href="/catalog/">Каталог</a>
         <a class="p-2 btn btn-outline-primary" href="/contacts/">Контакты</a>
     </nav>
 </div>
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">SkyStore</h1>
-    <p class="lead">SkyStore - один из лучших дистрибьюторов электронной техники по всему миру!</p>
-</div>
 
 <div class="container">
-    <div class="row text-left">
-        {% for object in object_list %}
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-            <img src="{{ object.product_pic|mediapath }}" alt="Изображение отсутствует">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">{{ object.product_name }}</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">${{ object.price }}</h1>
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li>{{ object.description|truncatechars:100 }}</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
-    </div>
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </footer>
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    {% block content %}
+    {% endblock %}
+    <footer class="pt-3 my-md-5 pt-md-2 border-top">
         <div class="row">
             <div class="col-12 col-md">
-                SkyStore
-                <small class="d-block mb-3 text-muted">&copy; 2023</small>
+                <a href="#">В начало</a>
+                <p class="float-end mb-0"></p>
+                <p class="mb-0">SkyStore&copy; 2023</p>
             </div>
             <div class="col-6 col-md">
                 <h5>Категории</h5>
@@ -79,7 +53,6 @@
         </div>
     </footer>
 </div>
-
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

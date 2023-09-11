@@ -3,12 +3,20 @@ from django.shortcuts import render
 from catalog.models import Product
 
 
-def home(request):
+def index(request):
     product_list = Product.objects.all()
     context = {
         'object_list': product_list
     }
-    return render(request, "catalog/home.html", context)
+    return render(request, "catalog/index.html", context)
+
+
+def base(request):
+    product_list = Product.objects.all()
+    context = {
+        'object_list': product_list
+    }
+    return render(request, "catalog/base.html", context)
 
 
 def contacts(request):
@@ -20,3 +28,17 @@ def contacts(request):
 
     return render(request, 'catalog/contacts.html')
 
+
+def catalog(request):
+    product_list = Product.objects.all()
+    context = {
+        'object_list': product_list
+    }
+    return render(request, 'catalog/catalog.html', context)
+
+
+def products(request, pk):
+    context = {
+        'object_list': Product.objects.get(pk=pk)
+    }
+    return render(request, 'catalog/products.html', context)
