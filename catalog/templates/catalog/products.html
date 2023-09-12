@@ -1,11 +1,13 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
 {% load tags %}
-<img src="{{ object.product_pic|mediapath }}" alt="Изображение отсутствует">
+
 
 <div class="container">
     <div class="card mb-4 box-shadow">
+        {% for object in object_list %}
         <div class="card-body">
+            <img src="{{ object.product_pic|mediapath }}" width="600" height="520" alt="Изображение отсутствует">
             <p>{{ object.description }}</p>
             <ul class="list-unstyled mt-3 mb-2 text-start m-2">
                 <li>- Категория: {{ object.category }}</li>
@@ -13,6 +15,7 @@
             <h3 class="card-title pricing-card-title">${{ object.price }}</h3>
             <a href="#" type="button" class="btn btn-lg btn-outline-primary">Купить</a>
         </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

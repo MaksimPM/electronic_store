@@ -39,6 +39,6 @@ def catalog(request):
 
 def products(request, pk):
     context = {
-        'object_list': Product.objects.get(pk=pk)
+        'object_list': Product.objects.filter(id=pk)
     }
     return render(request, 'catalog/products.html', context)
