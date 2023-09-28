@@ -9,7 +9,8 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                     <a class="p-2 btn btn-outline-primary" href="{% url 'product' object.pk %}">Подробнее</a>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">В корзину</button>
+                    <button type="button" class="btn btn-sm btn-outline-success">В корзину</button>
+                    <a class="p-2 btn btn-outline-secondary" href="{% url 'product_update' object.pk %}">Изменить</a>
                 </div>
             </div>
         </div>

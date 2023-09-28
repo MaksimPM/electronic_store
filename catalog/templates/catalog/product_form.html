@@ -1,0 +1,49 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<form method="post" class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>
+                    {% if object %}
+                    Редактирование продукта
+                    {% else %}
+                    Добавление продукта
+                    {% endif %}
+                </h3>
+            </div>
+            <div class="card-body">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-outline-success">
+                    Сохранить
+                </button>
+                {% if object %}
+                <a class="btn btn-outline-warning" href="{% url 'product' object.pk %}">Назад</a>
+                {% else %}
+                <a class="btn btn-outline-warning" href="{% url 'catalog' %}">Назад</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if object %}
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                Версия
+            </div>
+            <div class="card-body">
+                {{ formset.management_form }}
+                {% for form in formset.forms %}
+                {{ form.as_p }}
+                {% if not forloop.last %}
+                <hr>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</form>
+{% endblock %}

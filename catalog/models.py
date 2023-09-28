@@ -1,4 +1,5 @@
 from django.db import models
+
 # from _datetime import datetime
 
 NULLABLE = {'blank': True, 'null': True}
@@ -7,6 +8,7 @@ NULLABLE = {'blank': True, 'null': True}
 class Category(models.Model):
     category_name = models.CharField(max_length=150, verbose_name='Категория')
     description = models.TextField(verbose_name='Описание')
+
     # created_at = models.DateTimeField(default=datetime.now, verbose_name='Дата создания')
 
     def __str__(self):
@@ -61,5 +63,19 @@ class Blog(models.Model):
         return f'{self.title} ({self.slug})'
 
     class Meta:
-        verbose_name = 'блог'
-        verbose_name_plural = 'блоги'
+        verbose_name = 'Блог'
+        verbose_name_plural = 'Блоги'
+
+
+class Version(models.Model):
+    product_version = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
+    name_version = models.CharField(max_length=100, verbose_name='Наименование версии')
+    number_version = models.IntegerField(verbose_name='Номер версии')
+    active_version = models.BooleanField(default=True, verbose_name='Признак текущей версии')
+
+    def __str__(self):
+        return f'{self.product_version} ({self.name_version}:{self.number_version})'
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'

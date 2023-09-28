@@ -5,11 +5,14 @@
     <h1 class="display-4">Каталог</h1>
 </div>
 <title>SkyStore</title>
+<div class="col-12 mb-3">
+    <a class="btn btn-outline-primary" href="{% url 'create_product' %}">Добавить товар</a>
+</div>
 <div class="container py-7">
             <div class="row">
                 {% for object in object_list %}
                     {% include 'catalog/includes/include.html' %}
                 {% endfor %}
             </div>
-        </div>
+</div>
 {% endblock %}
