@@ -119,7 +119,7 @@ def toggle_activity(pk):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('product')
+    success_url = reverse_lazy('catalog')
 
 
 class ProductUpdateView(UpdateView):
