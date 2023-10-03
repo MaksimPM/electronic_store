@@ -6,7 +6,9 @@
 </div>
 <title>SkyStore</title>
 <div class="col-12 mb-3">
-    <a class="btn btn-outline-primary" href="{% url 'create_product' %}">Добавить товар</a>
+    {% if user.is_authenticated %}
+        <a class="btn btn-outline-primary" href="{% url 'create_product' %}">Добавить товар</a>
+    {% endif %}
 </div>
 <div class="container py-7">
             <div class="row">

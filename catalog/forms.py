@@ -12,27 +12,27 @@ class StyleFormMixin:
 
 
 class ProductForm(StyleFormMixin, forms.ModelForm):
+    danger_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+
     class Meta:
         model = Product
-        fields = ('product_name', 'description', 'price', 'product_pic',)
+        exclude = ('created_at', 'updated_at', 'user')
 
     def clean_product_name(self):
-        cleaned_data = self.cleaned_data['product_name']
-        danger_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-
-        for word in danger_words:
-            if word in cleaned_data:
-                raise forms.ValidationError(f'Запрещенное слово: {word}!')
-            return cleaned_data
+        cleaned_data = self.cleaned_data.get('product_name')
+        self.check_exceptional_words(self.danger_words, cleaned_data)
+        return cleaned_data
 
     def clean_description(self):
-        cleaned_data = self.cleaned_data['description']
-        danger_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+        cleaned_data = self.cleaned_data.get('description')
+        self.check_exceptional_words(self.danger_words, cleaned_data)
+        return cleaned_data
 
+    @staticmethod
+    def check_exceptional_words(danger_words, cleaned_data):
         for word in danger_words:
-            if word in cleaned_data:
+            if word in cleaned_data.lower():
                 raise forms.ValidationError(f'Запрещенное слово: {word}!')
-            return cleaned_data
 
 
 class VersionForm(StyleFormMixin, forms.ModelForm):

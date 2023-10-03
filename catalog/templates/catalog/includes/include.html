@@ -10,7 +10,9 @@
                 <div class="btn-group">
                     <a class="p-2 btn btn-outline-primary" href="{% url 'product' object.pk %}">Подробнее</a>
                     <button type="button" class="btn btn-sm btn-outline-success">В корзину</button>
-                    <a class="p-2 btn btn-outline-secondary" href="{% url 'product_update' object.pk %}">Изменить</a>
+                    {% if user.is_authenticated %}
+                        <a class="p-2 btn btn-outline-secondary" href="{% url 'product_update' object.pk %}">Изменить</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

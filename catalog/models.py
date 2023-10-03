@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 # from _datetime import datetime
 
@@ -28,6 +29,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='Цена')
     date_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_last_change = models.DateTimeField(auto_now_add=True, verbose_name='Дата последнего изменения')
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, verbose_name='пользователь', **NULLABLE)
 
     def __str__(self):
         return self.product_name

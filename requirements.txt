@@ -3,3 +3,5 @@ Psycopg2-binary
 Pillow
 ipython
 pytils
+certifi
+

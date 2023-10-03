@@ -4,7 +4,9 @@
 <main role="main">
     <div class="col-12">
         <div class="container px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
-            <a href="{% url 'create' %}" class="btn btn-sm btn-outline-primary " >Добавить запись</a>
+            {% if user.is_authenticated %}
+                 <a href="{% url 'create' %}" class="btn btn-sm btn-outline-primary " >Добавить запись</a>
+            {% endif %}
         </div>
     </div>
     <div class="container mb-5">
@@ -16,10 +18,14 @@
                     <h5 class="card-title">{{ object.title }}</h5>
                     <p class="card-text">{{ object.content|truncatechars:100 }} </p>
                     <a href="{% url 'view' object.pk %}" class="btn btn-sm btn-outline-primary" role="button">Посмотреть</a>
-                    <a href="{% url 'update' object.pk %}" class="btn btn-sm btn-outline-primary">Изменить</a>
-                    <a href="{% url 'delete' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'update' object.pk %}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                        <a href="{% url 'delete' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    {% endif %}
                 </div>
-                <a class="btn btn-warning" href="{% url 'toggle_activity' object.pk %}">Снять публикацию</a>
+                {% if user.is_authenticated %}
+                    <a class="btn btn-warning" href="{% url 'toggle_activity' object.pk %}">Снять публикацию</a>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
