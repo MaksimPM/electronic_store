@@ -2,10 +2,11 @@ import random
 import string
 
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView as BaseLoginView
+from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
@@ -18,21 +19,15 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        token = ''.join(random.sample(string.digits + string.ascii_letters, 12))
-        self.object.token = token
-        self.object.is_active = False
-        self.object.save()
-        url = 'http://127.0.0.1:8000/users/verify/' + token
-
-        if form.is_valid():
-            send_mail(
-                subject='Подтверждение регистрации',
-                message=f"""Для подтверждения регистрации и присоединении к команде перейдите по ссылке: {url}
-                        Внимание! Если вы не понимаете, почему Вам пришло это письмо, просто проигнорируйте его""",
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[self.object.email]
-            )
+        user = form.save()
+        token = ''.join([str(random.randint(0, 9)) for _ in range(12)])
+        user.token = token
+        send_mail(
+            subject='Подтверждение электронной почты',
+            message=f'Код для подтверждения: {token}',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.email],
+        )
         return super().form_valid(form)
 
 
@@ -45,12 +40,31 @@ class ProfileView(UpdateView):
         return self.request.user
 
 
-def verify_email(request, token):
-    user = User.objects.filter(token=token).first()
-    if user is not None:
-        user.is_active = True
-        user.save()
-        return redirect('users:login')
+class LoginView(BaseLoginView):
+    template_name = 'users/login.html'
+
+    def get_success_url(self):
+        user = self.request.user
+        if user.is_verified:
+            return reverse('index')
+        return reverse('users:verification')
+
+
+class LogoutView(BaseLogoutView):
+    pass
+
+
+def email_verification(request):
+    if request.method == 'POST':
+        input_token = request.POST.get('key')
+        try:
+            user = User.objects.get(token=input_token)
+            user.is_verified = True
+            user.save()
+        except User.DoesNotExist:
+            return render(request, 'users/unsuccessful_verification.html')
+        return render(request, 'users/successful_verification.html')
+    return render(request, 'users/verification.html')
 
 
 def reset_password(request):

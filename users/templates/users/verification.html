@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        Подтверждение электронной почты
+                    </h3>
+                    <form method="post" action="" class="form-floating">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input type="text" name="key" class="form-control" id="key"
+                                   placeholder="Введите код из письма"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Подтвердить</button>
+                        <a class="p-2 btn btn-outline-warning" href="{% url 'index' %}">Подтвердить
+                            позже</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
